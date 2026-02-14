@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ffd1dc, #ffb6c1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .container {
+        background: rgba(255,255,255,0.85);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+    }
+
+    h1 {
+        color: #d6336c;
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    img {
+        width: 250px;
+        max-width: 100%;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .buttons {
+        position: relative;
+        height: 80px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        position: absolute;
+    }
+
+    #yesBtn {
+        background: #ff4d6d;
+        color: white;
+        left: 30%;
+    }
+
+    #noBtn {
+        background: #999;
+        color: white;
+        left: 55%;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* confetti */
+    .confetti {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: red;
+        top: -10px;
+        animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh) rotate(720deg);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 id="title"> Minii Valentine bolooch❤️</h1>
+
+    <!-- begging puppy gif -->
+    <img id="gif"
+    src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif"
+    alt="cute puppy">
+
+    <div class="buttons" id="buttons">
+        <button id="yesBtn">YES 💖</button>
+        <button id="noBtn">NO 😢</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const title = document.getElementById("title");
+const gif = document.getElementById("gif");
+const buttons = document.getElementById("buttons");
+
+let moveCount = 0;
+
+// move NO button randomly
+function moveButton() {
+    moveCount++;
+
+    const container = buttons.getBoundingClientRect();
+    const maxX = container.width - noBtn.offsetWidth;
+    const maxY = container.height - noBtn.offsetHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    // funny text changes
+    const texts = [
+        "Ugui 😢",
+        "Chi itgeltei bnu? 🥺",
+        "Ugue guijiin 😭",
+        "Dahiad joohon bodoocde 😭",
+        "Minii setgeliig buu sharhluulaac 💔"
+    ];
+    noBtn.textContent = texts[Math.min(moveCount, texts.length-1)];
+}
+
+// desktop hover
+noBtn.addEventListener("mouseenter", moveButton);
+
+// mobile touch
+noBtn.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    moveButton();
+});
+
+// YES clicked
+yesBtn.addEventListener("click", () => {
+    title.innerText = "Zondoo ih hairtai shuuu ❤️🎉";
+    
+    gif.src = "https://media.giphy.com/media/artj92V8o75VPL7AeQ/giphy.gif";
+
+    noBtn.classList.add("hidden");
+    yesBtn.classList.add("hidden");
+
+    launchConfetti();
+});
+
+// confetti animation
+function launchConfetti() {
+    for(let i = 0; i < 120; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor =
+            `hsl(${Math.random()*360},100%,50%)`;
+
+        confetti.style.animationDuration =
+            (2 + Math.random()*3) + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 5000);
+    }
+}
+</script>
+
+</body>
+</html>
